@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Secure Portal Demo</title>
@@ -7,162 +7,157 @@
 <style>
 body{
 margin:0;
-font-family:Segoe UI,Tahoma;
-background:#f2f2f2;
-}
-header{
-background:#263238;
-color:#fff;
-padding:12px 20px;
-}
-.container{
-width:360px;
-margin:80px auto;
-}
-.card{
-background:#fff;
-border:1px solid #ccc;
-}
-.card-header{
-background:#eee;
-padding:10px;
-font-weight:bold;
-}
-.card-body{
-padding:15px;
-}
-input{
-width:100%;
-padding:8px;
-margin:6px 0;
-}
-button{
-width:100%;
-padding:10px;
-background:#263238;
+font-family:Arial;
+background:#004b3a;
 color:white;
-border:none;
+}
+
+header{
+background:#004b3a;
+padding:12px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+button{
+background:#004b3a;
+border:1px solid #0a7;
+color:white;
+padding:8px 20px;
 cursor:pointer;
 }
-#connecting,#dashboard{
-display:none;
+
+.center{
+display:flex;
+justify-content:center;
+align-items:center;
+height:80vh;
 }
-.progress{
-height:8px;
-background:#ddd;
+
+.card{
+background:white;
+color:black;
+padding:30px;
+width:320px;
+border-radius:4px;
+}
+
+input{
+width:100%;
+padding:10px;
 margin-top:10px;
-}
-.fill{
-height:100%;
-width:0;
-background:#263238;
-}
-.section{
-background:#fff;
 border:1px solid #ccc;
-margin-bottom:15px;
 }
-.section-header{
-background:#eee;
-padding:8px;
+
+.progress{
+width:300px;
+background:#033;
+height:10px;
+margin-top:20px;
 }
-.section-body{
-padding:12px;
+
+.bar{
+height:100%;
+background:white;
+width:0%;
+}
+
+.dashboard{
+background:#f2f2f2;
+color:black;
+padding:30px;
+}
+
+.box{
+background:white;
+padding:15px;
+margin-bottom:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>Secure Portal</header>
+<header id="top" style="display:none">
+Secure Portal
+<button onclick="logout()">Logout</button>
+</header>
 
-<!-- LOGIN -->
-<div class="container" id="login">
+<div id="login" class="center">
 <div class="card">
-<div class="card-header">Login</div>
-<div class="card-body">
-
-Username
-<input id="user">
-
-Password
-<input type="password" id="pass">
-
+<h3>Login</h3>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<br><br>
 <button onclick="login()">Login</button>
-
-</div>
 </div>
 </div>
 
-<!-- CONNECTING -->
-<div class="container" id="connecting">
-<div class="card">
-<div class="card-body">
-Connecting...
+<div id="connect" class="center" style="display:none">
+<div style="text-align:center">
+<h3>Connecting to secure gateway...</h3>
 <div class="progress">
-<div class="fill" id="bar"></div>
+<div class="bar" id="bar"></div>
 </div>
-</div>
-</div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard" style="width:700px;margin:40px auto">
-
-<div class="section">
-<div class="section-header">User Info</div>
-<div class="section-body">
-Name: ali<br>
-Status: Active
+<p id="percent">0%</p>
 </div>
 </div>
 
-<div class="section">
-<div class="section-header">Files</div>
-<div class="section-body">
-demo_document.pdf<br><br>
+<div id="dash" style="display:none">
 
-<a href="yourfile.pdf" download>
-<button style="width:auto">Download</button>
+<header>
+Secure Portal
+<button onclick="logout()">Logout</button>
+</header>
+
+<div class="dashboard">
+
+<div class="box">
+<b>User:</b> ali<br>
+<b>Status:</b> Active<br>
+<b>ID:</b> 882551
+</div>
+
+<div class="box">
+PDF File<br><br>
+<a href="demo.pdf" download>
+<button>Download</button>
 </a>
-
-</div>
 </div>
 
+</div>
 </div>
 
 <script>
+
 function login(){
 
-let u=document.getElementById("user").value;
-let p=document.getElementById("pass").value;
+if(user.value==="ali" && pass.value==="12345"){
 
-if(u!=="ali" || p!=="12345"){
-alert("Wrong username or password");
-return;
+login.style.display="none";
+connect.style.display="flex";
+
+let p=0;
+let t=setInterval(()=>{
+p+=2;
+bar.style.width=p+"%";
+percent.innerText=p+"%";
+if(p>=100){
+clearInterval(t);
+connect.style.display="none";
+dash.style.display="block";
+}
+},60);
+
+}else alert("Wrong credentials");
+
 }
 
-loginBox=document.getElementById("login");
-connecting=document.getElementById("connecting");
-dashboard=document.getElementById("dashboard");
-
-loginBox.style.display="none";
-connecting.style.display="block";
-
-let progress=0;
-
-let i=setInterval(()=>{
-progress+=5;
-bar.style.width=progress+"%";
-
-if(progress>=100){
-clearInterval(i);
-connecting.style.display="none";
-dashboard.style.display="block";
+function logout(){
+location.reload();
 }
-},100);
 
-}
 </script>
 
 </body>
