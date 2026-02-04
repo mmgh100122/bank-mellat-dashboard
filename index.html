@@ -1,31 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Secure Portal Demo</title>
+<title>Demo System</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
-background:#004b3a;
-color:white;
+background:#fff;
 }
 
-header{
-background:#004b3a;
-padding:12px 20px;
+.topbar{
+height:40px;
+background:#004d40;
+color:white;
 display:flex;
-justify-content:space-between;
 align-items:center;
-}
-
-button{
-background:#004b3a;
-border:1px solid #0a7;
-color:white;
-padding:8px 20px;
-cursor:pointer;
+justify-content:flex-end;
+padding-right:20px;
 }
 
 .center{
@@ -35,123 +28,117 @@ align-items:center;
 height:80vh;
 }
 
-.card{
-background:white;
-color:black;
-padding:30px;
-width:320px;
-border-radius:4px;
+.box{
+border:1px solid #ccc;
+padding:25px;
+width:300px;
 }
 
 input{
 width:100%;
-padding:10px;
+padding:8px;
 margin-top:10px;
-border:1px solid #ccc;
 }
 
-.progress{
+button{
+width:100%;
+margin-top:15px;
+background:#004d40;
+color:white;
+border:none;
+padding:10px;
+cursor:pointer;
+}
+
+.progress-box{
+border:1px solid #aaa;
+padding:30px;
 width:300px;
-background:#033;
-height:10px;
-margin-top:20px;
+text-align:center;
 }
 
 .bar{
-height:100%;
+background:#ccc;
+height:8px;
+margin-top:10px;
+}
+
+.fill{
 background:white;
+height:8px;
 width:0%;
 }
 
 .dashboard{
-background:#f2f2f2;
-color:black;
-padding:30px;
+padding:40px;
 }
 
-.box{
-background:white;
-padding:15px;
-margin-bottom:20px;
+.logout{
+position:absolute;
+top:8px;
+right:15px;
+color:white;
+cursor:pointer;
 }
+
+.hidden{display:none;}
 </style>
 </head>
 
 <body>
 
-<header id="top" style="display:none">
-Secure Portal
-<button onclick="logout()">Logout</button>
-</header>
+<div class="topbar">
+<span id="hello">سلام</span>
+<span class="logout hidden" onclick="logout()">Logout</span>
+</div>
 
 <div id="login" class="center">
-<div class="card">
+<div class="box">
 <h3>Login</h3>
 <input id="user" placeholder="Username">
 <input id="pass" type="password" placeholder="Password">
-<br><br>
-<button onclick="login()">Login</button>
+<button onclick="doLogin()">Login</button>
 </div>
 </div>
 
-<div id="connect" class="center" style="display:none">
-<div style="text-align:center">
-<h3>Connecting to secure gateway...</h3>
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
-<p id="percent">0%</p>
+<div id="loading" class="center hidden">
+<div class="progress-box">
+<div id="text">Connecting...</div>
+<div class="bar"><div id="fill" class="fill"></div></div>
+<div id="percent">0%</div>
 </div>
 </div>
 
-<div id="dash" style="display:none">
-
-<header>
-Secure Portal
-<button onclick="logout()">Logout</button>
-</header>
-
-<div class="dashboard">
-
-<div class="box">
-<b>User:</b> ali<br>
-<b>Status:</b> Active<br>
-<b>ID:</b> 882551
-</div>
-
-<div class="box">
-PDF File<br><br>
-<a href="demo.pdf" download>
-<button>Download</button>
-</a>
-</div>
-
-</div>
+<div id="dash" class="dashboard hidden">
+<h2>Dashboard</h2>
+<p>User: ali</p>
+<p>File:</p>
+<a href="1.pdf" download>Download PDF</a>
 </div>
 
 <script>
 
-function login(){
-
-if(user.value==="ali" && pass.value==="12345"){
-
-login.style.display="none";
-connect.style.display="flex";
+function doLogin(){
+if(user.value=="ali" && pass.value=="12345"){
+login.classList.add("hidden");
+loading.classList.remove("hidden");
+start();
+}else alert("wrong login");
+}
 
 let p=0;
+function start(){
 let t=setInterval(()=>{
-p+=2;
-bar.style.width=p+"%";
+p+=4;
+fill.style.width=p+"%";
 percent.innerText=p+"%";
 if(p>=100){
 clearInterval(t);
-connect.style.display="none";
-dash.style.display="block";
+loading.classList.add("hidden");
+dash.classList.remove("hidden");
+document.querySelector(".logout").classList.remove("hidden");
 }
-},60);
-
-}else alert("Wrong credentials");
-
+},120);
 }
 
 function logout(){
