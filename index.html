@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>Bank Mellat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --p:#0b5ed7; --bg:#eef2f6; --card:#fff; --t:#1f2937; --m:#6b7280;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:linear-gradient(180deg,#f7f9fc,#eef2f6);
+  font-family:Tahoma, Arial;color:var(--t);
+}
+.wrapper{max-width:420px;margin:70px auto;padding:0 14px}
+.card{
+  background:var(--card);border-radius:14px;padding:26px;
+  box-shadow:0 20px 50px rgba(0,0,0,.1);
+  animation:enter .6s ease;
+}
+@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
+h1,h2{text-align:center;margin:0 0 18px}
+input,button{
+  width:100%;padding:13px;margin:10px 0;font-size:14px;border-radius:10px
+}
+input{border:1px solid #d1d5db}
+button{
+  background:var(--p);border:none;color:#fff;cursor:pointer;
+  transition:.2s transform,.2s box-shadow
+}
+button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,94,215,.35)}
+.small{font-size:12px;color:var(--m);text-align:center}
+.demo{color:#b91c1c;font-size:12px;text-align:center;margin-top:8px}
+.hidden{display:none}
+.top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:12px}
+.progress{height:6px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.bar{height:100%;width:100%;background:linear-gradient(90deg,#0b5ed7,#60a5fa);transition:width 1s linear}
+.pdf{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px;border-radius:10px;background:#f8fafc;margin:8px 0;
+  transition:.2s transform,.2s box-shadow
+}
+.pdf:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,.08)}
+.badge{font-size:11px;background:#e5e7eb;padding:4px 7px;border-radius:999px}
+.a{color:var(--p);text-decoration:none;font-size:13px}
+.loader{
+  height:10px;border-radius:999px;background:#e5e7eb;overflow:hidden;margin:18px 0
+}
+.pulse{height:100%;width:40%;background:#c7d2fe;animation:pulse 1.2s infinite}
+@keyframes pulse{0%{margin-left:-40%}100%{margin-left:100%}}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+<!-- LOGIN -->
+<div class="card" id="login">
+  <h1>Secure Login</h1>
+  <input id="u" placeholder="Username">
+  <input id="p" type="password" placeholder="Password">
+  <button onclick="login()">Sign in</button>
+  <div class="demo">interface – no real banking connection</div>
+</div>
+
+<!-- LOADING -->
+<div class="card hidden" id="loading">
+  <h2>Verifying</h2>
+  <div class="loader"><div class="pulse"></div></div>
+  <div class="small">Establishing secure session…</div>
+</div>
+
+<!-- DASH -->
+<div class="card hidden" id="dash">
+  <div class="top">
+    <div>Session <b id="t">05:00</b></div>
+    <div id="ref"></div>
+  </div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+
+  <h2 style="margin-top:18px">Documents</h2>
+
+  <div class="pdf">
+    <span>Final_Banking_Package.pdf</span>
+    <span class="badge">UUID-A91F</span>
+  </div>
+  <a class="a" href="1.pdf" download>⬇ Download PDF</a>
+
+  <button onclick="logout()" style="margin-top:14px">Logout</button>
+  <div class="small">Client-side demo dashboard</div>
+</div>
+
+</div>
+
+<script>
+const USER="IR860120020000008012555869";
+const PASS="8012555869";
+let time=300, iv;
+
+function login(){
+  if(u.value===USER && p.value===PASS){
+    show("loading");
+    setTimeout(()=>{ show("dash"); start(); param(); },1200);
+  } else alert("Invalid credentials");
+}
+function show(id){
+  ["login","loading","dash"].forEach(x=>document.getElementById(x).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+function start(){
+  iv=setInterval(()=>{
+    time--;
+    const m=String(Math.floor(time/60)).padStart(2,"0");
+    const s=String(time%60).padStart(2,"0");
+    t.textContent=`${m}:${s}`;
+    bar.style.width=(time/300*100)+"%";
+    if(time<=0) logout();
+  },1000);
+}
+function param(){
+  const p=new URLSearchParams(location.search);
+  if(p.get("s")) ref.textContent="Ref: "+p.get("s");
+}
+function logout(){location.reload()}
+</script>
+
+</body>
+</html>
