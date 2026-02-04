@@ -1,128 +1,264 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Bank Mellat</title>
+<title>Internet Banking System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-:root{
-  --p:#0b5ed7; --bg:#eef2f6; --card:#fff; --t:#1f2937; --m:#6b7280;
-}
-*{box-sizing:border-box}
+/* ====== BANK FONT ====== */
 body{
-  margin:0;background:linear-gradient(180deg,#f7f9fc,#eef2f6);
-  font-family:Tahoma, Arial;color:var(--t);
+    margin:0;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    background:#f2f2f2;
 }
-.wrapper{max-width:420px;margin:70px auto;padding:0 14px}
+
+/* ====== HEADER ====== */
+header{
+    background:#004d40;
+    color:#fff;
+    padding:10px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    font-weight:600;
+    letter-spacing:.5px;
+}
+.logo svg{
+    width:26px;
+    height:26px;
+    margin-right:8px;
+}
+.logout{
+    font-size:12px;
+    cursor:pointer;
+}
+
+/* ====== LOGIN ====== */
+.container{
+    width:360px;
+    margin:80px auto;
+}
 .card{
-  background:var(--card);border-radius:14px;padding:26px;
-  box-shadow:0 20px 50px rgba(0,0,0,.1);
-  animation:enter .6s ease;
+    background:#fff;
+    border:1px solid #ccc;
 }
-@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
-h1,h2{text-align:center;margin:0 0 18px}
-input,button{
-  width:100%;padding:13px;margin:10px 0;font-size:14px;border-radius:10px
+.card-header{
+    background:#e6e6e6;
+    padding:8px 10px;
+    font-weight:600;
+    font-size:14px;
 }
-input{border:1px solid #d1d5db}
+.card-body{
+    padding:15px;
+}
+.alert{
+    background:#fff8c4;
+    border:1px solid #e6d600;
+    padding:8px;
+    font-size:12px;
+    margin-bottom:12px;
+}
+label{
+    font-size:12px;
+}
+input{
+    width:100%;
+    padding:8px;
+    margin:5px 0 12px 0;
+    box-sizing:border-box;
+    font-family:inherit;
+}
 button{
-  background:var(--p);border:none;color:#fff;cursor:pointer;
-  transition:.2s transform,.2s box-shadow
+    width:100%;
+    padding:9px;
+    background:#004d40;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
 }
-button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,94,215,.35)}
-.small{font-size:12px;color:var(--m);text-align:center}
-.demo{color:#b91c1c;font-size:12px;text-align:center;margin-top:8px}
-.hidden{display:none}
-.top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:12px}
-.progress{height:6px;background:#e5e7eb;border-radius:999px;overflow:hidden}
-.bar{height:100%;width:100%;background:linear-gradient(90deg,#0b5ed7,#60a5fa);transition:width 1s linear}
-.pdf{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px;border-radius:10px;background:#f8fafc;margin:8px 0;
-  transition:.2s transform,.2s box-shadow
+button:hover{background:#00695c}
+.footer{
+    text-align:center;
+    font-size:11px;
+    margin-top:15px;
+    color:#777;
 }
-.pdf:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,.08)}
-.badge{font-size:11px;background:#e5e7eb;padding:4px 7px;border-radius:999px}
-.a{color:var(--p);text-decoration:none;font-size:13px}
-.loader{
-  height:10px;border-radius:999px;background:#e5e7eb;overflow:hidden;margin:18px 0
+
+/* ====== CONNECTING ====== */
+#connecting{
+    display:none;
+    color:#fff;
 }
-.pulse{height:100%;width:40%;background:#c7d2fe;animation:pulse 1.2s infinite}
-@keyframes pulse{0%{margin-left:-40%}100%{margin-left:100%}}
+.progress-box{
+    background:#003d33;
+    padding:25px;
+    width:360px;
+    margin:120px auto;
+    border:1px solid #0a5;
+    text-align:center;
+}
+.progress-bar{
+    background:#1b5e20;
+    height:8px;
+    margin-top:15px;
+}
+.progress-fill{
+    width:0%;
+    height:100%;
+    background:#fff;
+    transition:width .3s;
+}
+
+/* ====== DASHBOARD ====== */
+#dashboard{
+    display:none;
+    width:720px;
+    margin:40px auto;
+}
+.section{
+    background:#fff;
+    border:1px solid #ccc;
+    margin-bottom:20px;
+}
+.section-header{
+    background:#e6e6e6;
+    padding:8px 10px;
+    font-weight:600;
+}
+.section-body{
+    padding:15px;
+}
+.row{
+    display:flex;
+    margin-bottom:8px;
+    font-size:13px;
+}
+.label{
+    width:130px;
+    color:#555;
+}
+.download{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.download button{
+    width:auto;
+    padding:6px 14px;
+}
 </style>
 </head>
+
 <body>
 
-<div class="wrapper">
+<header>
+    <div class="logo">
+        <!-- Inline SVG logo (bank-style, no external file) -->
+        <svg viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="2" width="20" height="20" rx="3" fill="#ffffff"/>
+            <path d="M6 15h12M6 11h12M6 7h12" stroke="#004d40" stroke-width="1.5"/>
+        </svg>
+        Internet Banking System
+    </div>
+    <div class="logout" onclick="logout()">Logout</div>
+</header>
 
 <!-- LOGIN -->
-<div class="card" id="login">
-  <h1>Secure Login</h1>
-  <input id="u" placeholder="Username">
-  <input id="p" type="password" placeholder="Password">
-  <button onclick="login()">Sign in</button>
-  <div class="demo">interface – no real banking connection</div>
+<div class="container" id="login">
+    <div class="card">
+        <div class="card-header">Login</div>
+        <div class="card-body">
+            <div class="alert">Enter your IBAN and password to login.</div>
+            <label>IBAN</label>
+            <input id="iban" value="IR8601200200000008012555869">
+            <label>Password</label>
+            <input type="password" value="********">
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+    <div class="footer">All Rights Reserved</div>
 </div>
 
-<!-- LOADING -->
-<div class="card hidden" id="loading">
-  <h2>Verifying</h2>
-  <div class="loader"><div class="pulse"></div></div>
-  <div class="small">Establishing secure session…</div>
+<!-- CONNECTING -->
+<div id="connecting">
+    <div class="progress-box">
+        Connecting to bank gateway...
+        <div class="progress-bar">
+            <div class="progress-fill" id="bar"></div>
+        </div>
+        <div id="percent">0%</div>
+    </div>
 </div>
 
-<!-- DASH -->
-<div class="card hidden" id="dash">
-  <div class="top">
-    <div>Session <b id="t">05:00</b></div>
-    <div id="ref"></div>
-  </div>
-  <div class="progress"><div class="bar" id="bar"></div></div>
+<!-- DASHBOARD -->
+<div id="dashboard">
+    <div class="section">
+        <div class="section-header">Account Info</div>
+        <div class="section-body">
+            <div class="row"><div class="label">Name:</div> Davood Rahimi</div>
+            <div class="row"><div class="label">Bank:</div> Bank Mellat</div>
+            <div class="row"><div class="label">Account:</div> 8012555869</div>
+        </div>
+    </div>
 
-  <h2 style="margin-top:18px">Documents</h2>
-
-  <div class="pdf">
-    <span>Final_Banking_Package.pdf</span>
-    <span class="badge">UUID-A91F</span>
-  </div>
-  <a class="a" href="1.pdf" download>⬇ Download PDF</a>
-
-  <button onclick="logout()" style="margin-top:14px">Logout</button>
-  <div class="small">Client-side demo dashboard</div>
-</div>
-
+    <div class="section">
+        <div class="section-header">Files</div>
+        <div class="section-body download">
+            <div>📄 c67d25ce-1704-4247-ab3b-662829b8c2ba.pdf</div>
+            <a href="yourfile.pdf" download>
+                <button>Download</button>
+            </a>
+        </div>
+    </div>
 </div>
 
 <script>
-const USER="IR860120020000008012555869";
-const PASS="8012555869";
-let time=300, iv;
-
+function route(){
+    if(location.hash==="#/dashboard"){
+        showDashboard();
+    }else{
+        showLogin();
+    }
+}
+function showLogin(){
+    login.style.display="block";
+    connecting.style.display="none";
+    dashboard.style.display="none";
+}
+function showDashboard(){
+    login.style.display="none";
+    connecting.style.display="none";
+    dashboard.style.display="block";
+}
 function login(){
-  if(u.value===USER && p.value===PASS){
-    show("loading");
-    setTimeout(()=>{ show("dash"); start(); param(); },1200);
-  } else alert("Invalid credentials");
+    location.hash="/login";
+    login.style.display="none";
+    connecting.style.display="block";
+
+    let p=0;
+    let i=setInterval(()=>{
+        p+=5;
+        bar.style.width=p+"%";
+        percent.innerText=p+"%";
+        if(p>=100){
+            clearInterval(i);
+            location.hash="/dashboard";
+            showDashboard();
+        }
+    },120);
 }
-function show(id){
-  ["login","loading","dash"].forEach(x=>document.getElementById(x).classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
+function logout(){
+    location.hash="/login";
+    showLogin();
 }
-function start(){
-  iv=setInterval(()=>{
-    time--;
-    const m=String(Math.floor(time/60)).padStart(2,"0");
-    const s=String(time%60).padStart(2,"0");
-    t.textContent=`${m}:${s}`;
-    bar.style.width=(time/300*100)+"%";
-    if(time<=0) logout();
-  },1000);
-}
-function param(){
-  const p=new URLSearchParams(location.search);
-  if(p.get("s")) ref.textContent="Ref: "+p.get("s");
-}
-function logout(){location.reload()}
+window.onhashchange=route;
+route();
 </script>
 
 </body>
